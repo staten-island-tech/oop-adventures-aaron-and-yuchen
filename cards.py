@@ -10,9 +10,11 @@ def draw(amount):
         for x in range(amount):
                 cards[x] = {
                     'code': cards_drawn['cards'][x]['code'],
-                    'value': cards_drawn['cards'][x]['value'] 
+                    'value': cards_drawn['cards'][x]['value'],
+                    'suit': cards_drawn['cards'][x]['suit']
                 }
-        print(cards)
+        for y in cards:
+            print(cards[y])
 
-draw(2)
+draw(10)
 
