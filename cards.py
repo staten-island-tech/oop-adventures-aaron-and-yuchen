@@ -16,5 +16,4 @@ def draw(amount):
         for y in cards:
             print(cards[y])
 
-draw(10)
-
+draw(53)
