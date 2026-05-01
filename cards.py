@@ -33,4 +33,4 @@ def draw(amount):
             cardvalue += int(cards[y]['value'])
         print(cardvalue)
 
-draw(2)
+draw(23)
