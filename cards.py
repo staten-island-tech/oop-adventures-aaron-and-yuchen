@@ -31,6 +31,9 @@ def draw(amount):
         for y in cards:
             print(cards[y])
             cardvalue += int(cards[y]['value'])
-        print(cardvalue)
+        if cardvalue > 21:
+            print("YOU SUCK")
+        else:
+            print(cardvalue)
 
 draw(23)
