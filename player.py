@@ -1,3 +1,4 @@
+from dealer import Dealer
 class Player:
     global bets
     bets = False
@@ -33,6 +34,9 @@ class Player:
     def show_balance(self):
         print(f"{self.name} currently has {self.__balance} dollars")
 
+    def payout(self, Dealer):
+        self.__balance += Dealer.collected_bets
+
     def money_gained(self):
         money = self.__balance - x
         if self.__balance > x:
@@ -43,5 +47,6 @@ class Player:
 pboy = Player("pboy", 100)
 pboy.bet(51)
 pboy.double()
+pboy.payout()
 pboy.show_balance()
 pboy.money_gained()
