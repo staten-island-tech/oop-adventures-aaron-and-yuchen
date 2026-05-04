@@ -36,4 +36,4 @@ def draw(amount):
         else:
             print(cardvalue)
 
-draw(23)
+draw(2)
