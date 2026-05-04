@@ -2,12 +2,28 @@ import requests
 
 def draw(amount):
         cards = {}
+        check = {}
+        cardvalue = 0
+        cardvalue_final = 0
         response = requests.get(f"https://deckofcardsapi.com/api/deck/new/draw/?count={amount}")
         if response.status_code != 200:
             print("Error fetching data!")
             return None
         cards_drawn = response.json()
         for x in range(amount):
+            if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
+                cards[x] = {
+                    'code': cards_drawn['cards'][x]['code'],
+                    'value': 10,
+                    'suit': cards_drawn['cards'][x]['suit']
+                }
+            elif cards_drawn['cards'][x]['value'] == 'ACE':
+                cards[x] = {
+                    'code': cards_drawn['cards'][x]['code'],
+                    'value': 11,
+                    'suit': cards_drawn['cards'][x]['suit']
+                }
+            else:
                 cards[x] = {
                     'code': cards_drawn['cards'][x]['code'],
                     'value': cards_drawn['cards'][x]['value'],
@@ -15,6 +31,21 @@ def draw(amount):
                 }
         for y in cards:
             print(cards[y])
-
-draw(10)
-
+            cardvalue += int(cards[y]['value'])
+            if cardvalue > 21 and cards[y]['value'] == 11:
+                cards[y]['value'] == 1
+            if cardvalue > 21:
+                print(cardvalue)
+            else:
+                print(cardvalue)    
+            check[y] = {
+                    'value': cards[y]['value']
+            }
+            if cardvalue > 21:
+                for i in check:
+                    if check[i]['value'] == 11:
+                        check[i]['value'] = 1
+                    cardvalue_final += int(check[i]['value'])
+            print(f"Final: {cardvalue_final}")
+                 
+draw(3)
