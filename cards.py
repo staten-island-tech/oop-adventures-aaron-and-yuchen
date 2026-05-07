@@ -62,7 +62,10 @@ def draw(amount):
             hit_status = input("Hit or Stand ")
             if hit_status == "Hit":
                 hit("yes", 1)
-        print("Haha you busted")
+            elif hit_status == "Stand":
+                break
+        if cardvalue > 21:
+            print("Haha you busted")
 
 def hit(yn, amount):
     global present
