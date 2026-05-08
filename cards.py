@@ -1,6 +1,8 @@
 import requests
 
 def draw(amount):
+        global first_draw
+        first_draw = True
         global present
         present = False
         cards = {}
@@ -59,15 +61,23 @@ def draw(amount):
             else:
                 print(cardvalue)
         while cardvalue < 21:
-            hit_status = input("Hit or Stand ")
-            if hit_status == "Hit":
+            hit_status = input("Hit or Stand ").lower()
+            if hit_status == "hit":
                 hit("yes", 1)
-            elif hit_status == "Stand":
+            elif hit_status == "stand":
                 break
-        if cardvalue > 21:
+            else: 
+                print("Enter a valid choice")
+        if cardvalue == 21 and first_draw == False:
+            print("Wow you won and got 21!!")
+        elif cardvalue > 21:
             print("Haha you busted")
+        elif cardvalue == 21 and first_draw == True:
+            print("Wow you got blackjack!!!")
 
 def hit(yn, amount):
+    global first_draw
+    first_draw = False
     global present
     if yn == "yes" and amount == 1:
         if len(aces) > 1:
