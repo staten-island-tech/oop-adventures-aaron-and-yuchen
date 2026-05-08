@@ -73,7 +73,7 @@ def draw(amount):
         elif cardvalue > 21:
             print("Haha you busted")
         elif cardvalue == 21 and first_draw == True:
-            print("Wow you got blackjack!!!")
+            print("Wow you got blackjack!!! and pboy likes men")
 
 def hit(yn, amount):
     global first_draw
@@ -184,8 +184,4 @@ class Player:
         draw(2)
 
 pboy = Player("pboy", 100)
-pboy.bet(51)
-pboy.double()
-pboy.show_balance()
-pboy.money_gained()
 pboy.play()
