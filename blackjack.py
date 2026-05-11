@@ -15,11 +15,11 @@ def draw(amount):
             print("Error fetching data!")
             return None
         cards_drawn = response.json()
-        print(f"There are {cards_drawn["remaining"]} cards remaining.")
-        if amount > cards_drawn["remaining"] and cards_drawn["remaining"] != 0:
-            print("Not enough cards, enter a valid value.")
-            amount = 0
-        elif cards_drawn['remaining'] == 0:
+        if cards_drawn['remaining'] != 1:
+            print(f"There are {cards_drawn["remaining"]} cards remaining.")
+        else: 
+            print("There are 0 cards remaining")
+        if cards_drawn['remaining'] == 0:
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
@@ -48,7 +48,7 @@ def draw(amount):
                     'suit': cards_drawn['cards'][x]['suit']
                 }
         for y in cards:
-            print(cards[y])
+            print(cards[y]['code'])
             cardvalue += int(cards[y]['value'])
             if cards[y]['value'] == 11:
                 aces.append(1)
@@ -57,6 +57,7 @@ def draw(amount):
                 if len(aces) > 0 and present == True:
                     cardvalue -= 10
                     present = False
+                    aces = []
                 print(cardvalue)
             else:
                 print(cardvalue)
@@ -89,14 +90,10 @@ def hit(yn, amount):
             print("Error fetching data!")
             return None
         cards_drawn = response.json()
-        if amount > cards_drawn["remaining"] and cards_drawn["remaining"] != 0:
-            print("Not enough cards, enter a valid value.")
-            amount = 0
-        elif cards_drawn['remaining'] == 0:
-            print("You are out of cards...")
-            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
-            print("The deck has been shuffled!")
-            return None
+        if cards_drawn['remaining'] != 1:
+            print(f"There are {cards_drawn["remaining"]} cards remaining.")
+        else: 
+            print("There are 0 cards remaining")
         if int(cards_drawn["remaining"]) <= 0:
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
@@ -121,7 +118,7 @@ def hit(yn, amount):
                     'suit': cards_drawn['cards'][x]['suit']
                 }
         for y in cards:
-            print(cards[y])
+            print(cards[y]['code'])
             cardvalue += int(cards[y]['value'])
             if cards[y]['value'] == 11:
                 aces.append(1)
@@ -129,11 +126,11 @@ def hit(yn, amount):
             if cardvalue > 21:
                 if len(aces) > 0 and present == True:
                     cardvalue -= 10
+                    aces.remove(1)
                     present = False
                 print(cardvalue)
             else:
                 print(cardvalue)
-        print(f"There are {cards_drawn["remaining"]} cards remaining.")
     elif amount != 1:
         print("You are only allowed to draw one card per hit.")
 
@@ -181,7 +178,7 @@ class Player:
             print("You have not made any money.")
 
     def play(self):
-        draw(2)
+        draw(1)
 
 pboy = Player("pboy", 100)
 pboy.play()
