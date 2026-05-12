@@ -137,6 +137,7 @@ def dealerhit(yn, amount):
 class Dealer:
     def Ddraw(self):
         dealerdraw(2)
+        
     def __init__(self, name):
         self.name = name
         self.money_given = 0
