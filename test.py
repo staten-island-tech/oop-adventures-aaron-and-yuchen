@@ -10,7 +10,7 @@ def draw(amount):
         aces = []
         global cardvalue
         cardvalue = 0
-        response = requests.get(f"https://deckofcardsapi.com/api/deck/1nze49wxn3h1/draw/?count={amount}")
+        response = requests.get(f"https://deckofcardsapi.com/api/deck/29zvejre61b7/draw/?count={amount}")
         if response.status_code != 200:
             print("Error fetching data!")
             return None
@@ -21,12 +21,12 @@ def draw(amount):
             print("There are 0 cards remaining")
         if cards_drawn['remaining'] == 0:
             print("You are out of cards...")
-            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            response = requests.get("https://deckofcardsapi.com/api/deck/29zvejre61b7/shuffle/?cards=AS,AC,AD,AH,8H,8S,8C,8D,7H,7D")
             print("The deck has been shuffled!")
             return None
         if int(cards_drawn["remaining"]) <= 0:
             print("You are out of cards...")
-            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            response = requests.get("https://deckofcardsapi.com/api/deck/29zvejre61b7/shuffle/?cards=AS,AC,AD,AH,8H,8S,8C,8D,7H,7D")
             print("The deck has been shuffled!")
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
@@ -56,8 +56,8 @@ def draw(amount):
             if cardvalue > 21:
                 if len(aces) > 0 and present == True:
                     cardvalue -= 10
-                    if len(aces) == 0:
-                        present = False
+                    present = False
+                    aces = []
                 print(cardvalue)
             else:
                 print(cardvalue)
@@ -85,7 +85,7 @@ def hit(yn, amount):
             present = True
         cards = {}
         global cardvalue
-        response = requests.get(f"https://deckofcardsapi.com/api/deck/1nze49wxn3h1/draw/?count=1")
+        response = requests.get(f"https://deckofcardsapi.com/api/deck/29zvejre61b7/draw/?count=1")
         if response.status_code != 200:
             print("Error fetching data!")
             return None
@@ -96,7 +96,7 @@ def hit(yn, amount):
             print("There are 0 cards remaining")
         if int(cards_drawn["remaining"]) <= 0:
             print("You are out of cards...")
-            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            response = requests.get("https://deckofcardsapi.com/api/deck/29zvejre61b7/shuffle/?cards=AS,AC,AD,AH,8H,8S,8C,8D,7H,7D")
             print("The deck has been shuffled!")
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
@@ -124,14 +124,20 @@ def hit(yn, amount):
                 aces.append(1)
                 present = True
             if cardvalue > 21:
+                if len(aces) > 0:
+                        present == True
                 if len(aces) > 0 and present == True:
+                    print(aces)
                     cardvalue -= 10
                     aces.remove(1)
                     if len(aces) == 0:
                         present = False
+                    print(aces)
+                    print(present)
                 print(cardvalue)
             else:
                 print(cardvalue)
+                
     elif amount != 1:
         print("You are only allowed to draw one card per hit.")
 
