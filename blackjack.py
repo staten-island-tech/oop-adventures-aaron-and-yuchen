@@ -282,11 +282,11 @@ class Dealer:
     def Ddraw(self):
         dealerdraw(2)
         if Dcardvalue > cardvalue and dealerbust == False:
-            print("You lost")
+            playerwin == "Lose"
         elif Dcardvalue < cardvalue and playerbust == False or dealerbust == True:
-            print("You win")
+            playerwin == "Win"
         elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False:
-            print("Tie")
+            playerwin == "Tie"
         elif playerbust == True and dealerbust == True:
             print("yo why do you AND the dealer sucks")
         
@@ -304,8 +304,9 @@ class Dealer:
 class Player:
     global bets
     bets = False
-    money_lost = 0
     def __init__(self, name, balance):
+        global playerwin
+        playerwin = "Lose"
         self.name = name
         self.__balance = balance
         global x
@@ -318,12 +319,18 @@ class Player:
             print(f"{self.name} does not have enough money to make this bet")
         else:
             if bet >= 0:
-                self.__balance = self.__balance - y
                 print(f"{self.name} has made a bet of {y}")
                 global bets
                 bets = True
             else: 
                 print("Please make a valid bet")
+        if self.playerwin == False:
+            print("You lost")
+            self.__balance -= y
+        elif self.playerwin == True:
+            print("You won")
+            self.__balance += y
+        print(f"You now have {self.__balance}")
     
     def double(self):
         if self.__balance - y or bets == False < 0:
@@ -335,7 +342,6 @@ class Player:
 
     def show_balance(self):
         print(f"{self.name} currently has {self.__balance} dollars")
-
 
     def money_gained(self):
         money = self.__balance - x
