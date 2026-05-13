@@ -1,6 +1,8 @@
 import requests
 
 def draw(amount):
+        global playerbust
+        playerbust = False
         global first_draw
         first_draw = True
         global present
@@ -66,12 +68,6 @@ def draw(amount):
             if hit_status == "hit":
                 hit("yes", 1)
             elif hit_status == "stand":
-                if Dcardvalue > cardvalue and dealerbust == False:
-                    print("You lost")
-                elif Dcardvalue < cardvalue:
-                    print("You win")
-                elif Dcardvalue == cardvalue:
-                    print("Tie")
                 break
             else: 
                 print("Enter a valid choice")
@@ -79,6 +75,7 @@ def draw(amount):
             print("Wow you won and got 21!!")
         elif cardvalue > 21:
             print("Haha you busted")
+            playerbust = True
         elif cardvalue == 21 and first_draw == True:
             print("Wow you got blackjack!!! and pboy likes men")
 
@@ -284,6 +281,14 @@ def dealerhit(yn, amount):
 class Dealer:
     def Ddraw(self):
         dealerdraw(2)
+        if Dcardvalue > cardvalue and dealerbust == False:
+            print("You lost")
+        elif Dcardvalue < cardvalue and playerbust == False or dealerbust == True:
+            print("You win")
+        elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False:
+            print("Tie")
+        elif playerbust == True and dealerbust == True:
+            print("yo why do you AND the dealer sucks")
         
     def __init__(self, name):
         self.name = name
@@ -344,5 +349,5 @@ class Player:
 
 pboy = Player("pboy", 100)
 bob = Dealer("bob")
-bob.Ddraw()
 pboy.play()
+bob.Ddraw()
