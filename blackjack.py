@@ -281,14 +281,20 @@ def dealerhit(yn, amount):
 class Dealer:
     def Ddraw(self):
         dealerdraw(2)
+        global playerwin
+        playerwin = "Lose"
         if Dcardvalue > cardvalue and dealerbust == False:
-            playerwin == "Lose"
-        elif Dcardvalue < cardvalue and playerbust == False or dealerbust == True:
-            playerwin == "Win"
+            playerwin = "Lose"
+        elif Dcardvalue < cardvalue and playerbust == False:
+            playerwin = "Win"
         elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False:
-            playerwin == "Tie"
+            playerwin = "Tie"
+        elif cardvalue == 21 and first_draw == True:
+            playerwin = "Blackjack1"
         elif playerbust == True and dealerbust == True:
             print("yo why do you AND the dealer sucks")
+        elif Dcardvalue > cardvalue and dealerbust == True:
+            playerwin = "Win"
         
     def __init__(self, name):
         self.name = name
@@ -305,15 +311,14 @@ class Player:
     global bets
     bets = False
     def __init__(self, name, balance):
-        global playerwin
-        playerwin = "Lose"
         self.name = name
         self.__balance = balance
         global x
         x = balance
     
-    def bet(self, bet):
+    def setbet(self):
         global y
+        bet = int(input("How much do you bet? "))
         y = bet
         if self.__balance - y < 0:
             print(f"{self.name} does not have enough money to make this bet")
@@ -324,12 +329,18 @@ class Player:
                 bets = True
             else: 
                 print("Please make a valid bet")
-        if self.playerwin == False:
+
+    def checkbet(self):
+        if playerwin == "Lose":
             print("You lost")
             self.__balance -= y
-        elif self.playerwin == True:
+        elif playerwin == "Win":
             print("You won")
             self.__balance += y
+        elif playerwin == "Tie":
+            print("You tied")
+        elif playerwin == "Blackjack1":
+            self.__balance += 1.5*y
         print(f"You now have {self.__balance}")
     
     def double(self):
@@ -353,7 +364,20 @@ class Player:
     def play(self):
         draw(2)
 
+cont = "yes"
+
 pboy = Player("pboy", 100)
 bob = Dealer("bob")
-pboy.play()
-bob.Ddraw()
+while x > 0 and cont == "yes":
+    pboy.setbet()
+    pboy.play()
+    bob.Ddraw()
+    pboy.checkbet()
+    if x > 0:
+        cont = input("Play again?").lower()
+        if cont == "no":
+            print(f"You leave the casino with ${x}.")
+            break
+    else: 
+        print("You're broke get out")
+        break
