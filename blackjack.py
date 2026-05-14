@@ -313,8 +313,8 @@ class Player:
     def __init__(self, name, balance):
         self.name = name
         self.__balance = balance
-        global x
-        x = balance
+        global money    
+        money = self.__balance
     
     def setbet(self):
         global y
@@ -322,13 +322,15 @@ class Player:
         y = bet
         if self.__balance - y < 0:
             print(f"{self.name} does not have enough money to make this bet")
+            exit()
         else:
-            if bet >= 0:
+            if bet > 0:
                 print(f"{self.name} has made a bet of {y}")
                 global bets
                 bets = True
             else: 
                 print("Please make a valid bet")
+                exit()
 
     def checkbet(self):
         if playerwin == "Lose":
@@ -351,16 +353,6 @@ class Player:
             print(f"{self.name} has successfully doubled their bet")
             bets == False
 
-    def show_balance(self):
-        print(f"{self.name} currently has {self.__balance} dollars")
-
-    def money_gained(self):
-        money = self.__balance - x
-        if self.__balance > x:
-            print(f"{self.name} has gained {money} dollars")
-        else: 
-            print("You have not made any money.")
-
     def play(self):
         draw(2)
 
@@ -368,16 +360,11 @@ cont = "yes"
 
 pboy = Player("pboy", 100)
 bob = Dealer("bob")
-while x > 0 and cont == "yes":
+while money > 0:
     pboy.setbet()
     pboy.play()
     bob.Ddraw()
     pboy.checkbet()
-    if x > 0:
-        cont = input("Play again?").lower()
-        if cont == "no":
-            print(f"You leave the casino with ${x}.")
-            break
-    else: 
-        print("You're broke get out")
-        break
+    if money == 0:
+        print("brokie get out of my casino" )
+        exit()
