@@ -21,15 +21,11 @@ def draw(amount):
             print(f"There are {cards_drawn["remaining"]} cards remaining.")
         else: 
             print("There are 0 cards remaining")
-        if cards_drawn['remaining'] == 0:
-            print("You are out of cards...")
-            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
-            print("The deck has been shuffled!")
-            return None
         if int(cards_drawn["remaining"]) <= 0:
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
+            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -101,6 +97,7 @@ def hit(yn, amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
+            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -161,15 +158,11 @@ def dealerdraw(amount):
             print(f"There are {Dcards_drawn["remaining"]} cards remaining.")
         else: 
             print("There are 0 cards remaining")
-        if Dcards_drawn['remaining'] == 0:
-            print("You are out of cards...")
-            Dresponse = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
-            print("The deck has been shuffled!")
-            return None
         if int(Dcards_drawn["remaining"]) <= 0:
             print("You are out of cards...")
             Dresponse = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
+            exit()
         for x in range(amount):
             if Dcards_drawn['cards'][x]['value'] == 'QUEEN' or Dcards_drawn['cards'][x]['value'] == 'KING' or Dcards_drawn['cards'][x]['value'] == 'JACK':
                 Dcards[x] = {
@@ -243,6 +236,7 @@ def dealerhit(yn, amount):
             print("You are out of cards...")
             Dresponse = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
+            exit()
         for x in range(amount):
             if Dcards_drawn['cards'][x]['value'] == 'QUEEN' or Dcards_drawn['cards'][x]['value'] == 'KING' or Dcards_drawn['cards'][x]['value'] == 'JACK':
                 Dcards[x] = {
@@ -313,8 +307,6 @@ class Player:
     def __init__(self, name, balance):
         self.name = name
         self.__balance = balance
-        global money    
-        money = self.__balance
     
     def setbet(self):
         global y
@@ -322,14 +314,13 @@ class Player:
         y = bet
         if self.__balance - y < 0:
             print(f"{self.name} does not have enough money to make this bet")
-            exit()
         else:
             if bet > 0:
                 print(f"{self.name} has made a bet of {y}")
                 global bets
                 bets = True
             else: 
-                print("Please make a valid bet")
+                print("get out of my casino you brokie cant even bet 1 dollar")
                 exit()
 
     def checkbet(self):
@@ -356,15 +347,23 @@ class Player:
     def play(self):
         draw(2)
 
-cont = "yes"
-
 pboy = Player("pboy", 100)
 bob = Dealer("bob")
-while money > 0:
+money = 100
+balance = pboy.__dict__
+print(money)
+stay = "yes"
+while money > 0 and stay == "yes":
     pboy.setbet()
     pboy.play()
     bob.Ddraw()
     pboy.checkbet()
+    money = balance["_Player__balance"]
     if money == 0:
-        print("brokie get out of my casino" )
+        print("yo get out of my casino you brokie")
         exit()
+    stay = input("Keep playing? ").lower()
+    if stay == "no":
+        print(f"you left with ${balance} (Bro your supposed to be broke)")
+    
+
