@@ -97,7 +97,6 @@ def hit(yn, amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -236,7 +235,6 @@ def dealerhit(yn, amount):
             print("You are out of cards...")
             Dresponse = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
         for x in range(amount):
             if Dcards_drawn['cards'][x]['value'] == 'QUEEN' or Dcards_drawn['cards'][x]['value'] == 'KING' or Dcards_drawn['cards'][x]['value'] == 'JACK':
                 Dcards[x] = {
@@ -279,27 +277,43 @@ class Dealer:
         playerwin = "Lose"
         if Dcardvalue > cardvalue and dealerbust == False:
             playerwin = "Lose"
+            self.anger -= 2
+            self.angergain = "L"
         elif Dcardvalue < cardvalue and playerbust == False:
             playerwin = "Win"
+            self.anger += 2
+            self.angergain = "G"
         elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False:
             playerwin = "Tie"
+            self.anger -= 1
+            self.angergain = "L"
         elif cardvalue == 21 and first_draw == True:
             playerwin = "Blackjack1"
+            self.anger += 3
+            self.angergain = "G"
         elif playerbust == True and dealerbust == True:
             print("yo why do you AND the dealer sucks")
+            self.anger -= 1
+            self.angergain = "L"
         elif Dcardvalue > cardvalue and dealerbust == True:
             playerwin = "Win"
+            self.anger += 2
+            self.angergain = "G"
         
     def __init__(self, name):
         self.name = name
         self.money_given = 0
-    
-    def collected_bets(self, money):
-        self.money_given += money
-    
-    def payout(self):
-        print(f"{self.name} has paid out {self.money_given} dollars to the winner")
-        self.money_given = 0
+        self.anger = 0
+        self.angergain = ""
+
+    def angercheck(self):
+        if self.anger == 0:
+            ""
+        if self.anger == 3 and self.angergain == "G": 
+            print(f"{self.name}: You were just lucky that round. Watch, I'll win it back.")
+        
+        if self.anger == -3 and self.angergain == "L":
+            print(f"{self.name}: HAHA, you suck man.")
 
 class Player:
     global bets
@@ -307,20 +321,20 @@ class Player:
     def __init__(self, name, balance):
         self.name = name
         self.__balance = balance
+
     def setbet(self):
         global y
         bet = int(input("How much do you bet? "))
         y = bet
-        if self.__balance - y < 0:
-            print(f"{self.name} does not have enough money to make this bet")
+        while self.__balance - y < 0 or y == 0:
+            print(f"{self.name} must enter a valid 'bet' value.")
+            bet = int(input("How much do you bet? "))
+            y = bet
         else:
             if bet > 0:
                 print(f"{self.name} has made a bet of {y}")
                 global bets
                 bets = True
-            else: 
-                print("get out of my casino you brokie cant even bet 1 dollar")
-                exit()
 
     def checkbet(self):
         if playerwin == "Lose":
@@ -356,5 +370,4 @@ while money > 0 and stay == "yes":
     stay = input("Keep playing? ").lower()
     if stay == "no":
         print(f"you left with ${money}")
-    
 
