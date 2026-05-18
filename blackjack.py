@@ -307,10 +307,9 @@ class Dealer:
     def angercheck(self):
         if self.anger == 0:
             ""
-        if self.anger == 3 and self.angergain == "G": 
-            print(f"{self.name}: You were just lucky that round. Watch, I'll win it back.")
-        
-        if self.anger == -3 and self.angergain == "L":
+        if self.anger <= 3 and self.anger > 6 and self.angergain == "G": 
+            print(f"{self.name}: You were just lucky that round. Watch, I'll win it back.")      
+        if self.anger >= -3 and self.anger < -6 and self.angergain == "L":
             print(f"{self.name}: HAHA, you suck man.")
 
 class Player:
@@ -361,6 +360,7 @@ while money > 0 and stay == "yes":
     pboy.play()
     bob.Ddraw()
     pboy.checkbet()
+    bob.angercheck()
     money = balance["_Player__balance"]
     if money == 0:
         print("You suck now get out")
