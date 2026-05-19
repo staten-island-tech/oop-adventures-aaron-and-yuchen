@@ -326,13 +326,20 @@ class Player:
         while integer == False:
             try:
                 bet = int(input("How much do you bet? "))
+                integer = True
             except ValueError:
-                print("Enter a valid integer")
-                bet = int(input("How much do you bet? "))
+                print("Enter a valid integer buckaroo")
+                
         y = bet
         while self.__balance - y < 0 or y == 0:
             print(f"{self.name} must enter a valid 'bet' value.")
-            bet = int(input("How much do you bet? "))
+            integer = False
+            while integer == False:
+                try:
+                    bet = int(input("How much do you bet? "))
+                    integer = True
+                except ValueError:
+                    print("Enter a valid integer buckaroo")
             y = bet
         else:
             if bet > 0:
