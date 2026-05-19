@@ -25,6 +25,7 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
+            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -320,8 +321,14 @@ class Player:
         self.__balance = balance
 
     def setbet(self):
+        integer = False
         global y
-        bet = int(input("How much do you bet? "))
+        while integer == False:
+            try:
+                bet = int(input("How much do you bet? "))
+            except ValueError:
+                print("Enter a valid integer")
+                bet = int(input("How much do you bet? "))
         y = bet
         while self.__balance - y < 0 or y == 0:
             print(f"{self.name} must enter a valid 'bet' value.")
@@ -354,18 +361,26 @@ bob = Dealer("bob")
 money = 100
 balance = pboy.__dict__
 stay = "yes"
+leave = False
 print(f"You start with ${money}")
-while money > 0 and stay == "yes":
-    pboy.setbet()
-    pboy.play()
-    bob.Ddraw()
-    pboy.checkbet()
-    bob.angercheck()
-    money = balance["_Player__balance"]
-    if money == 0:
-        print("You suck now get out")
-        exit()
-    stay = input("Keep playing? ").lower()
-    if stay == "no":
+while money > 0 and leave == False:
+    if stay == "yes":
+        pboy.setbet()
+        pboy.play()
+        bob.Ddraw()
+        pboy.checkbet()
+        bob.angercheck()
+        money = balance["_Player__balance"]
+        if money == 0:
+            print("You suck now get out")
+            exit()
+        stay = input("Keep playing? ").lower()
+    elif stay == "no":
         print(f"you left with ${money}")
+        leave = True
+    else:
+        print("Enter a valid response")
+        stay = input("Keep playing? ").lower()
+
+
 
