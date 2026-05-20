@@ -278,7 +278,7 @@ class Dealer:
             playerwin = "Lose"
             self.anger -= 2
             self.angergain = "L"
-        elif Dcardvalue < cardvalue and playerbust == False:
+        elif Dcardvalue < cardvalue and playerbust == False and first_draw == False:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
