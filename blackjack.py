@@ -25,7 +25,6 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -74,7 +73,7 @@ def draw(amount):
             print("Haha you busted")
             playerbust = True
         elif cardvalue == 21 and first_draw == True:
-            print("Wow you got blackjack!!! and pboy likes men")
+            print("Wow you got blackjack!!!")
 
 def hit(yn, amount):
     global first_draw
@@ -304,14 +303,14 @@ class Dealer:
         self.name = name
         self.money_given = 0
         self.anger = 0
-        self.angergain = ""
+        self.angergain = "G"
 
     def angercheck(self):
         if self.anger == 0:
             ""
-        if self.anger <= 3 and self.anger > 6 and self.angergain == "G": 
+        if self.anger >= 3 and self.anger < 6 and self.angergain == "G": 
             print(f"{self.name}: You were just lucky that round. Watch, I'll win it back.")      
-        if self.anger >= -3 and self.anger < -6 and self.angergain == "L":
+        if self.anger <= -3 and self.anger > -6 and self.angergain == "L":
             print(f"{self.name}: HAHA, you suck man.")
 
 class Player:
