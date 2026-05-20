@@ -205,7 +205,7 @@ def dealerdraw(amount):
             elif Dhit_status == "stand":
                 break
         if Dcardvalue == 21 and Dfirst_draw == False:
-            print("Dealer got blackjack son lock in")
+            print("Dealer got 21 son lock in")
         elif Dcardvalue > 21:
             print("Dealer busts")
             dealerbust = True
