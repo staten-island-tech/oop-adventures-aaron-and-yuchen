@@ -54,6 +54,7 @@ def draw(amount):
             if cardvalue > 21:
                 if len(aces) > 0 and present == True:
                     cardvalue -= 10
+                    aces.remove(1)
                     if len(aces) == 0:
                         present = False
                 print(cardvalue)
@@ -331,7 +332,7 @@ class Player:
                 print("Enter a valid integer buckaroo")
                 
         y = bet
-        while self.__balance - y < 0 or y == 0:
+        while self.__balance - y < 0 or y <= 0:
             print(f"{self.name} must enter a valid 'bet' value.")
             integer = False
             while integer == False:
