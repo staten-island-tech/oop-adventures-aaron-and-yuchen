@@ -308,10 +308,12 @@ class Dealer:
     def angercheck(self):
         if self.anger == 0:
             ""
-        if self.anger >= 3 and self.anger < 6 and self.angergain == "G": 
-            print(f"{self.name}: You were just lucky that round. Watch, I'll win it back.")      
-        if self.anger <= -3 and self.anger > -6 and self.angergain == "L":
-            print(f"{self.name}: HAHA, you suck man.")
+        if self.anger >= 3 and self.anger < 5 and self.angergain == "G": 
+            print(f"{self.name}: You were just lucky that round!")      
+        if self.anger >= 5 and self.anger < 10 and self.angergain == "G": 
+            print(f"{self.name}: IM SO ANGRYYY")      
+        if self.anger <= -3 and self.anger > -5 and self.angergain == "L":
+            print(f"{self.name}: You're not very good at this.")
 
 class Player:
     global bets
