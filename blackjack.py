@@ -56,9 +56,9 @@ def draw(amount):
                     aces.remove(1)
                     if len(aces) == 0:
                         present = False
-                print(cardvalue)
+                print(f"Total: {cardvalue}")
             else:
-                print(cardvalue)
+                print(f"Total: {cardvalue}")
         while cardvalue < 21:
             hit_status = input("Hit or Stand ").lower()
             if hit_status == "hit":
@@ -68,7 +68,7 @@ def draw(amount):
             else: 
                 print("Enter a valid choice")
         if cardvalue == 21 and first_draw == False:
-            print("Wow you won and got 21!!")
+            print("Yay blackjack!")
         elif cardvalue > 21:
             print("Haha you busted")
             playerbust = True
@@ -128,9 +128,9 @@ def hit(yn, amount):
                     aces.remove(1)
                     if len(aces) == 0:
                         present = False
-                print(cardvalue)
+                print(f"Total: {cardvalue}")
             else:
-                print(cardvalue)
+                print(f"Total: {cardvalue}")
     elif amount != 1:
         print("You are only allowed to draw one card per hit.")
 
@@ -191,9 +191,9 @@ def dealerdraw(amount):
                     Dcardvalue -= 10
                     if len(Daces) == 0:
                         Dpresent = False
-                print(Dcardvalue)
+                print(f"Total: {Dcardvalue}")
             else:
-                print(Dcardvalue)
+                print(f"Total: {Dcardvalue}")
         while Dcardvalue < 21:
             if Dcardvalue < 17:
                 Dhit_status = "hit"
@@ -265,9 +265,9 @@ def dealerhit(yn, amount):
                     Daces.remove(1)
                     if len(Daces) == 0:
                         Dpresent = False
-                print(Dcardvalue)
+                print(f"Total: {Dcardvalue}")
             else:
-                print(Dcardvalue)
+                print(f"Total: {Dcardvalue}")
 
 class Dealer:
     def Ddraw(self):
