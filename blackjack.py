@@ -371,6 +371,7 @@ money = 100
 balance = pboy.__dict__
 stay = "yes"
 leave = False
+print("So all the number value is their number, 0, J-K is 10 and A is 11 (1 if go over 21).")
 print(f"You start with ${money}")
 while money > 0 and leave == False:
     if stay == "yes":
