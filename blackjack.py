@@ -271,6 +271,7 @@ def dealerhit(yn, amount):
 
 class Dealer:
     def Ddraw(self):
+        print("Dealer is drawing now...")
         dealerdraw(2)
         global playerwin
         playerwin = "Lose"
