@@ -45,7 +45,7 @@ def draw(amount):
                     'suit': cards_drawn['cards'][x]['suit']
                 }
         for y in cards:
-            print(cards[y]['code'])
+            print(f"{cards[y]['code'][0]} of {cards[y]['code'][1]}")
             cardvalue += int(cards[y]['value'])
             if cards[y]['value'] == 11:
                 aces.append(1)
@@ -117,7 +117,7 @@ def hit(yn, amount):
                     'suit': cards_drawn['cards'][x]['suit']
                 }
         for y in cards:
-            print(cards[y]['code'])
+            print(f"{cards[y]['code'][0]} of {cards[y]['code'][1]}")
             cardvalue += int(cards[y]['value'])
             if cards[y]['value'] == 11:
                 aces.append(1)
@@ -181,7 +181,7 @@ def dealerdraw(amount):
                     'suit': Dcards_drawn['cards'][x]['suit']
                 }
         for y in Dcards:
-            print(Dcards[y]['code'])
+            print(f"{Dcards[y]['code'][0]} of {Dcards[y]['code'][1]}")
             Dcardvalue += int(Dcards[y]['value'])
             if Dcards[y]['value'] == 11:
                 Daces.append(1)
@@ -254,7 +254,7 @@ def dealerhit(yn, amount):
                     'suit': Dcards_drawn['cards'][x]['suit']
                 }
         for y in Dcards:
-            print(Dcards[y]['code'])
+            print(f"{Dcards[y]['code'][0]} of {Dcards[y]['code'][1]}")
             Dcardvalue += int(Dcards[y]['value'])
             if Dcards[y]['value'] == 11:
                 Daces.append(1)
