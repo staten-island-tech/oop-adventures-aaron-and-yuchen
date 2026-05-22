@@ -25,7 +25,6 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -54,6 +53,7 @@ def draw(amount):
             if cardvalue > 21:
                 if len(aces) > 0 and present == True:
                     cardvalue -= 10
+                    aces.remove(1)
                     if len(aces) == 0:
                         present = False
                 print(cardvalue)
@@ -73,7 +73,7 @@ def draw(amount):
             print("Haha you busted")
             playerbust = True
         elif cardvalue == 21 and first_draw == True:
-            print("Wow you got blackjack!!! and pboy likes men")
+            print("Wow you got blackjack!!!")
 
 def hit(yn, amount):
     global first_draw
@@ -204,7 +204,7 @@ def dealerdraw(amount):
             elif Dhit_status == "stand":
                 break
         if Dcardvalue == 21 and Dfirst_draw == False:
-            print("Dealer got blackjack son lock in")
+            print("Dealer got 21 son lock in")
         elif Dcardvalue > 21:
             print("Dealer busts")
             dealerbust = True
@@ -272,14 +272,13 @@ def dealerhit(yn, amount):
 class Dealer:
     def Ddraw(self):
         dealerdraw(2)
-        cardvalue = 1
         global playerwin
         playerwin = "Lose"
         if Dcardvalue > cardvalue and dealerbust == False:
             playerwin = "Lose"
             self.anger -= 2
             self.angergain = "L"
-        elif Dcardvalue < cardvalue and playerbust == False:
+        elif Dcardvalue < cardvalue and playerbust == False and first_draw == False:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
@@ -291,8 +290,8 @@ class Dealer:
             playerwin = "Blackjack1"
             self.anger += 3
             self.angergain = "G"
-        elif playerbust == True:
-            print("Haha you busted")
+        elif playerbust == True and dealerbust == True:
+            print("yo why do you AND the dealer sucks")
             self.anger -= 1
             self.angergain = "L"
         elif Dcardvalue > cardvalue and dealerbust == True:
@@ -304,17 +303,17 @@ class Dealer:
         self.name = name
         self.money_given = 0
         self.anger = 0
-        self.angergain = ""
+        self.angergain = "G"
 
     def angercheck(self):
         if self.anger == 0:
             ""
-        if self.anger <= 3 and self.anger > 6 and self.angergain == "G": 
-            print(f"{self.name}: You were just lucky that round. Watch, I'll win it back.")      
-        if self.anger >= -3 and self.anger < -6 and self.angergain == "L":
-            print(f"{self.name}: HAHA, you suck man.")
-        print(f"Anger:{self.anger}")
-        print(self.angergain)
+        if self.anger >= 3 and self.anger < 5 and self.angergain == "G": 
+            print(f"{self.name}: You were just lucky that round!")      
+        if self.anger >= 5 and self.anger < 7 and self.angergain == "G": 
+            print(f"{self.name}: >:(")      
+        if self.anger <= -3 and self.anger > -5 and self.angergain == "L":
+            print(f"{self.name}: You're not very good at this.")
 
 class Player:
     global bets
@@ -334,7 +333,7 @@ class Player:
                 print("Enter a valid integer buckaroo")
                 
         y = bet
-        while self.__balance - y < 0 or y == 0:
+        while self.__balance - y < 0 or y <= 0:
             print(f"{self.name} must enter a valid 'bet' value.")
             integer = False
             while integer == False:
@@ -372,10 +371,7 @@ money = 100
 balance = pboy.__dict__
 stay = "yes"
 leave = False
-for x in range(5):
-    bob.Ddraw()
-    bob.angercheck()
-""" print(f"You start with ${money}")
+print(f"You start with ${money}")
 while money > 0 and leave == False:
     if stay == "yes":
         pboy.setbet()
@@ -393,7 +389,7 @@ while money > 0 and leave == False:
         leave = True
     else:
         print("Enter a valid response")
-        stay = input("Keep playing? ").lower() """
+        stay = input("Keep playing? ").lower()
 
 
 
