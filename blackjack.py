@@ -25,7 +25,6 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -149,10 +148,12 @@ def dealerdraw(amount):
         Daces = []
         global Dcardvalue
         Dcardvalue = 0
+        global Dresponse
         Dresponse = requests.get(f"https://deckofcardsapi.com/api/deck/1nze49wxn3h1/draw/?count={amount}")
         if Dresponse.status_code != 200:
             print("Error fetching data!")
             return None
+        global Dcards_drawn
         Dcards_drawn = Dresponse.json()
         if Dcards_drawn['remaining'] != 1:
             print(f"There are {Dcards_drawn["remaining"]} cards remaining.")
@@ -300,6 +301,10 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
+        if Dcards_drawn["remaining"] <= 2:
+            print("Shuffling deck")
+            Dresponse = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            print("The deck has been shuffled!")
         
     def __init__(self, name):
         self.name = name
@@ -375,7 +380,7 @@ class Player:
         print(f"You now have {self.__balance}")
 
     def play(self):
-        draw(2)
+        draw(1)
 
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
