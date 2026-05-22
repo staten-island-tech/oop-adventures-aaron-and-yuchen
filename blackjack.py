@@ -25,6 +25,7 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
+            exit()
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -68,7 +69,7 @@ def draw(amount):
             else: 
                 print("Enter a valid choice")
         if cardvalue == 21 and first_draw == False:
-            print("Yay blackjack!")
+            print("Yay 21!")
         elif cardvalue > 21:
             print("Haha you busted")
             playerbust = True
