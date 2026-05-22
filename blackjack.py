@@ -279,7 +279,7 @@ class Dealer:
             playerwin = "Lose"
             self.anger -= 2
             self.angergain = "L"
-        elif Dcardvalue < cardvalue and playerbust == False and first_draw == False:
+        elif Dcardvalue < cardvalue and playerbust == False and cardvalue != 21:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
@@ -309,11 +309,21 @@ class Dealer:
     def angercheck(self):
         if self.anger == 0:
             ""
-        if self.anger >= 3 and self.anger < 5 and self.angergain == "G": 
-            print(f"{self.name}: You were just lucky that round!")      
-        if self.anger >= 5 and self.anger < 10 and self.angergain == "G": 
-            print(f"{self.name}: IM SO ANGRYYY")      
-        if self.anger <= -3 and self.anger > -5 and self.angergain == "L":
+        if self.anger >= 4 and self.anger < 8 and self.angergain == "G": 
+            print(f"{self.name}: You were just lucky that round...")      
+        if self.anger >= 8 and self.anger < 12 and self.angergain == "G": 
+            print(f"{self.name}: Seriously, stop that.") 
+        if self.anger >= 12 and self.anger < 16 and self.angergain == "G": 
+            print(f"{self.name}: You don't wanna see me angry... 'cus when I get angry... I see red...")
+            print(f"{self.name}: 'cus when I get angry... I see red...")
+            print(f"{self.name}: and when I see red... you better run...")
+        if self.anger >= 16 and self.anger < 20 and self.angergain == "G": 
+            print(f"{self.name}: I HATE YOU, I'LL MAKE SURE YOU DIE HORRIBLY")
+        if self.anger >= 20 and self.angergain == "G": 
+            print(f"{self.name}: GET OUT RIGHT NOW, AND NEVER COME BACK!!!")
+            print(f"You were thrown out with ${money}")     
+            exit()
+        if self.anger <= -4 and self.anger > -8 and self.angergain == "L":
             print(f"{self.name}: You're not very good at this.")
 
 class Player:
@@ -387,7 +397,7 @@ while money > 0 and leave == False:
             exit()
         stay = input("Keep playing? ").lower()
     elif stay == "no":
-        print(f"you left with ${money}")
+        print(f"You left with ${money}")
         leave = True
     else:
         print("Enter a valid response")
