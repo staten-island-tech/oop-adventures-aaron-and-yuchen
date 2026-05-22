@@ -191,9 +191,9 @@ def dealerdraw(amount):
                     Dcardvalue -= 10
                     if len(Daces) == 0:
                         Dpresent = False
-                print(f"Total: {Dcardvalue}")
+                print(f"Dealer's Total: {Dcardvalue}")
             else:
-                print(f"Total: {Dcardvalue}")
+                print(f"Dealer's Total: {Dcardvalue}")
         while Dcardvalue < 21:
             if Dcardvalue < 17:
                 Dhit_status = "hit"
@@ -265,9 +265,9 @@ def dealerhit(yn, amount):
                     Daces.remove(1)
                     if len(Daces) == 0:
                         Dpresent = False
-                print(f"Total: {Dcardvalue}")
+                print(f"Dealer's Total: {Dcardvalue}")
             else:
-                print(f"Total: {Dcardvalue}")
+                print(f"Dealer's Total: {Dcardvalue}")
 
 class Dealer:
     def Ddraw(self):
@@ -366,8 +366,8 @@ class Player:
     def play(self):
         draw(2)
 
-pboy = Player("pboy", 100)
-bob = Dealer("bob")
+pboy = Player(input("Enter your name: "), 100)
+Bob = Dealer("Bob")
 money = 100
 balance = pboy.__dict__
 stay = "yes"
@@ -378,9 +378,9 @@ while money > 0 and leave == False:
     if stay == "yes":
         pboy.setbet()
         pboy.play()
-        bob.Ddraw()
+        Bob.Ddraw()
         pboy.checkbet()
-        bob.angercheck()
+        Bob.angercheck()
         money = balance["_Player__balance"]
         if money == 0:
             print("You suck now get out")
