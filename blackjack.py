@@ -1,6 +1,8 @@
 import requests
 
 def draw(amount):
+        global first_deck
+        first_deck = True
         global playerbust
         playerbust = False
         global first_draw
@@ -25,7 +27,10 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
+        elif int(cards_drawn["remaining"]) <= 0 and first_deck == True:
+            print("You are out of cards...")
+            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            print("The deck has been shuffled!")
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -136,6 +141,7 @@ def hit(yn, amount):
         print("You are only allowed to draw one card per hit.")
 
 def dealerdraw(amount):
+        first_deck = False
         global DBJ
         DBJ = False
         global dealerbust
@@ -149,10 +155,12 @@ def dealerdraw(amount):
         Daces = []
         global Dcardvalue
         Dcardvalue = 0
+        global Dresponse
         Dresponse = requests.get(f"https://deckofcardsapi.com/api/deck/1nze49wxn3h1/draw/?count={amount}")
         if Dresponse.status_code != 200:
             print("Error fetching data!")
             return None
+        global Dcards_drawn
         Dcards_drawn = Dresponse.json()
         if Dcards_drawn['remaining'] != 1:
             print(f"There are {Dcards_drawn["remaining"]} cards remaining.")
@@ -292,6 +300,10 @@ class Dealer:
             playerwin = "Blackjack1"
             self.anger += 3
             self.angergain = "G"
+        elif cardvalue == 21 and first_draw == False:
+            playerwin = "Win"
+            self.anger += 2
+            self.angergain = "G"
         elif playerbust == True and dealerbust == True:
             print("yo why do you AND the dealer sucks")
             self.anger -= 1
@@ -300,6 +312,7 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
+
         
     def __init__(self, name):
         self.name = name
@@ -375,7 +388,7 @@ class Player:
         print(f"You now have {self.__balance}")
 
     def play(self):
-        draw(2)
+        draw(1)
 
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
