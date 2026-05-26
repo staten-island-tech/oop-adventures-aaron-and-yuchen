@@ -1,6 +1,8 @@
 import requests
 
 def draw(amount):
+        global first_deck
+        first_deck = True
         global playerbust
         playerbust = False
         global first_draw
@@ -22,6 +24,10 @@ def draw(amount):
         else: 
             print("There are 0 cards remaining")
         if int(cards_drawn["remaining"]) <= 0:
+            print("You are out of cards...")
+            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            print("The deck has been shuffled!")
+        elif int(cards_drawn["remaining"]) <= 0 and first_deck == True:
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
@@ -135,6 +141,7 @@ def hit(yn, amount):
         print("You are only allowed to draw one card per hit.")
 
 def dealerdraw(amount):
+        first_deck = False
         global DBJ
         DBJ = False
         global dealerbust
@@ -293,6 +300,10 @@ class Dealer:
             playerwin = "Blackjack1"
             self.anger += 3
             self.angergain = "G"
+        elif cardvalue == 21 and first_draw == False:
+            playerwin = "Win"
+            self.anger += 2
+            self.angergain = "G"
         elif playerbust == True and dealerbust == True:
             print("yo why do you AND the dealer sucks")
             self.anger -= 1
@@ -301,10 +312,7 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
-        if Dcards_drawn["remaining"] <= 2:
-            print("Shuffling deck")
-            Dresponse = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
-            print("The deck has been shuffled!")
+
         
     def __init__(self, name):
         self.name = name
