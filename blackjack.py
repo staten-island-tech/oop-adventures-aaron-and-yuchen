@@ -388,7 +388,7 @@ class Player:
         print(f"You now have {self.__balance}")
 
     def play(self):
-        draw(1)
+        draw(2)
 
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
