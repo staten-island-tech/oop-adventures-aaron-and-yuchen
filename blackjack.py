@@ -317,11 +317,9 @@ class Dealer:
     def __init__(self, name):
         self.name = name
         self.anger = 0
-        self.angergain = "G"
+        self.angergain = "N/A"
 
     def angercheck(self):
-        if self.anger == 0:
-            ""
         if self.anger >= 4 and self.anger < 8 and self.angergain == "G" and playerwin != "Lose": 
             print(f"{self.name}: You were just lucky that round...")      
         if self.anger >= 8 and self.anger < 12 and self.angergain == "G" and playerwin != "Lose": 
@@ -336,8 +334,18 @@ class Dealer:
             print(f"{self.name}: GET OUT RIGHT NOW, AND NEVER COME BACK!!!")
             print(f"You were thrown out with ${money}")     
             exit()
-        if self.anger <= -4 and self.anger > -8 and self.angergain == "L":
+        if self.anger <= -4 and self.anger > -8 and self.angergain == "L" and playerwin != "Win":
             print(f"{self.name}: You're not very good at this.")
+        if self.anger <= -8 and self.anger > -12 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: You suck at this.")
+        if self.anger <= -12 and self.anger > -16 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: I think, uh, you should think more carefully about your plays...")
+        if self.anger <= -16 and self.anger > -20 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: You've lost... quite a lot now...")
+        if self.anger <= -20 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: Ok look, I think you should just leave now, your obviously not gonna win anything.")
+            print(f"You were kindly pointed to the exit with ${money}")     
+            exit()
 
 class Player:
     global bets
@@ -345,6 +353,13 @@ class Player:
     def __init__(self, name, balance):
         self.name = name
         self.__balance = balance
+        self.stay = "yes"
+        global money
+        money = self.__balance
+
+    def pregamemessage(self):
+        print("READ FIRST: Your goal is to not go over 21 but still be higher than the opponent. Numbered cards have the same value as it shows. J, Q, K, and 0 are 10. A is 1 or 11 (Depending on how much you have).")
+        print(f"You start with ${self.__balance}")
 
     def setbet(self):
         integer = False
@@ -383,35 +398,35 @@ class Player:
         elif playerwin == "Tie":
             print("You tied")
         elif playerwin == "Blackjack1":
-            self.__balance += 1.5*y
+            self.__balance += y + y/2
         print(f"You now have {self.__balance}")
 
     def play(self):
         draw(2)
 
+    def moneycheck(self):
+        if self.__balance == 0:
+            print("You suck now get out")
+            exit()
+        money = self.__balance
+        self.stay = input("Keep playing? ").lower()
+        while self.stay != "yes" or self.stay != "no":
+            if self.stay == "no":
+                    print(f"You left with ${self.__balance}")
+                    exit()
+            elif self.stay == "yes":
+                return
+            print("Enter a valid response")
+            self.stay = input("Keep playing? ").lower()
+            
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
-money = 100
-balance = pboy.__dict__
-stay = "yes"
-leave = False
-print("READ FIRST: Numbered cards have the same value as it shows. J, Q, K, and 0 are 10. A is 1 or 11 (Depending on how much you have).")
-print(f"You start with ${money}")
-while money > 0 and leave == False:
-    if stay == "yes":
+loop = True
+pboy.pregamemessage()
+while loop == True:
         pboy.setbet()
         pboy.play()
         Bob.Ddraw()
         pboy.checkbet()
         Bob.angercheck()
-        money = balance["_Player__balance"]
-        if money == 0:
-            print("You suck now get out")
-            exit()
-        stay = input("Keep playing? ").lower()
-    elif stay == "no":
-        print(f"You left with ${money}")
-        leave = True
-    else:
-        print("Enter a valid response")
-        stay = input("Keep playing? ").lower()
+        pboy.moneycheck()
