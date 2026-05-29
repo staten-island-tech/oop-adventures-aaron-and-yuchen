@@ -352,6 +352,7 @@ class Player:
     bets = False
     def __init__(self, name, balance):
         self.name = name
+        self.drunk = 0
         self.__balance = balance
         self.stay = "yes"
         global money
@@ -418,6 +419,23 @@ class Player:
                 return
             print("Enter a valid response")
             self.stay = input("Keep playing? ").lower()
+
+    def waiter(self):
+        drink = input(print("A waiter comes by with a tray of glasses, do you want one?")).lower()
+        while drink != "yes" or drink != "no":
+            if drink == "yes":
+                print("You take one and drink it.")
+                self.drunk += 2
+                return
+            elif drink == "no":
+                print("He walks away.")
+                self.drunk -= 1
+                return
+            else:
+                print("What?")
+                return
+            
+        
             
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
@@ -430,3 +448,4 @@ while loop == True:
         pboy.checkbet()
         Bob.angercheck()
         pboy.moneycheck()
+        pboy.waiter()
