@@ -352,7 +352,14 @@ class Player:
     bets = False
     def __init__(self, name, balance):
         self.name = name
-        self.drunk = 0
+        self.drunk = 100
+        self.drunkup = False
+        self.dnum = 0
+        self.ds1 = 0
+        self.ds2 = 0
+        self.ds3 = 0
+        self.ds4 = 0
+        self.ds5 = 0
         self.__balance = balance
         self.stay = "yes"
         global money
@@ -421,19 +428,42 @@ class Player:
             self.stay = input("Keep playing? ").lower()
 
     def waiter(self):
-        drink = input(print("A waiter comes by with a tray of glasses, do you want one?")).lower()
+        drink = input("A waiter comes by with a tray of drink, do you want one? ").lower()
         while drink != "yes" or drink != "no":
             if drink == "yes":
-                print("You take one and drink it.")
+                print("You take one.")
                 self.drunk += 2
+                self.dnum += 1
+                self.drunkup = True
                 return
             elif drink == "no":
                 print("He walks away.")
-                self.drunk -= 1
+                if self.drunk != 0:
+                    self.drunk -= 1
+                self.drunkup = False
                 return
             else:
                 print("What?")
+                if self.drunk != 0:
+                    self.drunk -= 1
+                self.drunkup = False
                 return
+    def drunkcheck(self):
+        if self.drunk >= 4 and self.drunk < 8 and self.drunkup == True and self.ds1 == 0:
+            print("You feel a little more confident.")
+            self.ds1 = 1
+        if self.drunk >= 8 and self.drunk < 12 and self.drunkup == True and self.ds2 == 0:
+            print("You're vision is a little unclear.")
+            self.ds2 = 1
+        if self.drunk >= 12 and self.drunk < 16 and self.drunkup == True and self.ds3 == 0:
+            print("You almost dozed off.")
+            self.ds3 = 1
+        if self.drunk >= 16 and self.drunk <= 20 and self.drunkup == True and self.ds4 == 0:
+            print("You can't even see your cards anymore.")
+            self.ds4 = 1
+        if self.drunk > 20 and self.drunkup == True and self.ds5 == 0:
+            print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
+            self.ds5 = 1
             
         
             
@@ -447,5 +477,6 @@ while loop == True:
         Bob.Ddraw()
         pboy.checkbet()
         Bob.angercheck()
-        pboy.moneycheck()
         pboy.waiter()
+        pboy.drunkcheck()
+        pboy.moneycheck()
