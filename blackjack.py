@@ -352,7 +352,7 @@ class Player:
     bets = False
     def __init__(self, name, balance):
         self.name = name
-        self.drunk = 100
+        self.drunk = 0
         self.drunkup = False
         self.dnum = 0
         self.ds1 = 0
@@ -420,7 +420,7 @@ class Player:
         self.stay = input("Keep playing? ").lower()
         while self.stay != "yes" or self.stay != "no":
             if self.stay == "no":
-                    print(f"You left with ${self.__balance}")
+                    print(f"You left with ${self.__balance}  and {self.dnum} drinks taken.")
                     exit()
             elif self.stay == "yes":
                 return
@@ -448,6 +448,7 @@ class Player:
                     self.drunk -= 1
                 self.drunkup = False
                 return
+            
     def drunkcheck(self):
         if self.drunk >= 4 and self.drunk < 8 and self.drunkup == True and self.ds1 == 0:
             print("You feel a little more confident.")
@@ -464,6 +465,7 @@ class Player:
         if self.drunk > 20 and self.drunkup == True and self.ds5 == 0:
             print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
             self.ds5 = 1
+            exit()
             
         
             
