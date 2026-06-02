@@ -451,16 +451,16 @@ class Player:
             
     def drunkcheck(self):
         if self.drunk >= 4 and self.drunk < 8 and self.drunkup == True and self.ds1 == 0:
-            print("You feel a little more confident.")
+            print("Yummy yummy drink.")
             self.ds1 = 1
         if self.drunk >= 8 and self.drunk < 12 and self.drunkup == True and self.ds2 == 0:
-            print("You're vision is a little unclear.")
+            print("You're vision is a little blurry.")
             self.ds2 = 1
         if self.drunk >= 12 and self.drunk < 16 and self.drunkup == True and self.ds3 == 0:
             print("You almost dozed off.")
             self.ds3 = 1
         if self.drunk >= 16 and self.drunk <= 20 and self.drunkup == True and self.ds4 == 0:
-            print("You can't even see your cards anymore.")
+            print("Yo I think you had too much.")
             self.ds4 = 1
         if self.drunk > 20 and self.drunkup == True and self.ds5 == 0:
             print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
