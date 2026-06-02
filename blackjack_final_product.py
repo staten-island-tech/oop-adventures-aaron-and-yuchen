@@ -450,19 +450,19 @@ class Player:
                 return
             
     def drunkcheck(self):
-        if self.drunk >= 4 and self.drunk < 8 and self.drunkup == True and self.ds1 == 0:
+        if self.drunk >= 6 and self.drunk < 11 and self.drunkup == True and self.ds1 == 0:
             print("Yummy yummy drink.")
             self.ds1 = 1
-        if self.drunk >= 8 and self.drunk < 12 and self.drunkup == True and self.ds2 == 0:
+        if self.drunk >= 11 and self.drunk <  16 and self.drunkup == True and self.ds2 == 0:
             print("You're vision is a little blurry.")
             self.ds2 = 1
-        if self.drunk >= 12 and self.drunk < 16 and self.drunkup == True and self.ds3 == 0:
+        if self.drunk >= 16 and self.drunk < 21 and self.drunkup == True and self.ds3 == 0:
             print("You almost dozed off.")
             self.ds3 = 1
-        if self.drunk >= 16 and self.drunk <= 20 and self.drunkup == True and self.ds4 == 0:
+        if self.drunk >= 21 and self.drunk <= 26 and self.drunkup == True and self.ds4 == 0:
             print("Yo I think you had too much.")
             self.ds4 = 1
-        if self.drunk > 20 and self.drunkup == True and self.ds5 == 0:
+        if self.drunk > 26 and self.drunkup == True and self.ds5 == 0:
             print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
             self.ds5 = 1
             exit()
@@ -477,6 +477,6 @@ while loop == True:
         Bob.Ddraw()
         pboy.checkbet()
         Bob.angercheck()
-        pboy.waiter()
         pboy.moneycheck()
+        pboy.waiter()
         pboy.drunkcheck()
