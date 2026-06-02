@@ -467,8 +467,6 @@ class Player:
             self.ds5 = 1
             exit()
             
-        
-            
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
 loop = True
