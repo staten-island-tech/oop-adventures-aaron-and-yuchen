@@ -1,4 +1,5 @@
 import requests
+import math
 
 def draw(amount):
         global first_deck
@@ -407,6 +408,7 @@ class Player:
             print("You tied")
         elif playerwin == "Blackjack1":
             self.__balance += y + y/2
+            math.ceil(self.__balance)
         print(f"You now have {self.__balance}")
 
     def play(self):
@@ -420,7 +422,7 @@ class Player:
         self.stay = input("Keep playing? ").lower()
         while self.stay != "yes" or self.stay != "no":
             if self.stay == "no":
-                    print(f"You left with ${self.__balance}  and {self.dnum} drinks taken.")
+                    print(f"You left with ${self.__balance} and {self.dnum} drinks taken.")
                     exit()
             elif self.stay == "yes":
                 return
