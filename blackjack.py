@@ -478,5 +478,5 @@ while loop == True:
         pboy.checkbet()
         Bob.angercheck()
         pboy.waiter()
-        pboy.drunkcheck()
         pboy.moneycheck()
+        pboy.drunkcheck()
