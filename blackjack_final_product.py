@@ -412,7 +412,7 @@ class Player:
         print(f"You now have {self.__balance}")
 
     def play(self):
-        draw(1)
+        draw(2)
 
     def moneycheck(self):
         if self.__balance == 0:
@@ -469,10 +469,10 @@ class Player:
             self.ds5 = 1
             exit()
     def deckcheck(self):
-        test = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
-        testuno = test.json()
-        if testuno['remaining'] <= 2:
-            test = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
+        dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
+        dcthingidk2 = dcthingidk.json()
+        if dcthingidk2['remaining'] <= 2:
+            dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
             
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
