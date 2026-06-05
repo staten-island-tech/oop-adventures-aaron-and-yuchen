@@ -412,7 +412,7 @@ class Player:
         print(f"You now have {self.__balance}")
 
     def play(self):
-        draw(2)
+        draw(1)
 
     def moneycheck(self):
         if self.__balance == 0:
@@ -468,12 +468,19 @@ class Player:
             print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
             self.ds5 = 1
             exit()
+    def deckcheck(self):
+        test = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
+        testuno = test.json()
+        if testuno['remaining'] <= 2:
+            test = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
+            print(test.json())
             
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
 loop = True
 pboy.pregamemessage()
 while loop == True:
+        pboy.deckcheck()
         pboy.setbet()
         pboy.play()
         Bob.Ddraw()
