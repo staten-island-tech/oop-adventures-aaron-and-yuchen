@@ -473,7 +473,6 @@ class Player:
         testuno = test.json()
         if testuno['remaining'] <= 2:
             test = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
-            print(test.json())
             
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
