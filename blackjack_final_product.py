@@ -468,6 +468,7 @@ class Player:
             print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
             self.ds5 = 1
             exit()
+            
     def deckcheck(self):
         dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
         dcthingidk2 = dcthingidk.json()
