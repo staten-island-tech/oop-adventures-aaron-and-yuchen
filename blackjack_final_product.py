@@ -1,3 +1,4 @@
+import random
 import requests
 import math
 
@@ -474,7 +475,19 @@ class Player:
         dcthingidk2 = dcthingidk.json()
         if dcthingidk2['remaining'] <= 2:
             dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
-            
+    
+    def jackpot(self):
+        jackpot = random.randint(1,777)
+        if jackpot == 777 and playerwin == "Win":
+            print(f"{self.name} JUST HIT THE JACKPOTTTTT.")
+            self.__balance = self.__balance * 10
+
+    def selfexplode(self):
+            monarch = random.randint(1,1000)
+            if monarch == 67 and playerwin == "Lose":
+                print(f"{self.name} has randomly exploded.")
+                exit()
+
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
 loop = True
@@ -487,5 +500,7 @@ while loop == True:
         pboy.checkbet()
         Bob.angercheck()
         pboy.moneycheck()
+        pboy.jackpot()
+        pboy.selfexplode()
         pboy.waiter()
         pboy.drunkcheck()
