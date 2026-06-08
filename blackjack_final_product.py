@@ -475,6 +475,7 @@ class Player:
         dcthingidk2 = dcthingidk.json()
         if dcthingidk2['remaining'] <= 2:
             dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
+
     
     def jackpot(self):
         jackpot = random.randint(1,777)
