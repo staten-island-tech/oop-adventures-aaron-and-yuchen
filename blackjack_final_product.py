@@ -294,7 +294,11 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
-        elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False:
+        elif Dcardvalue == 21 and Dfirst_draw ==  True:
+            playerwin = "Lose"
+            self.anger -= 3
+            self.angergain = "L"
+        elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False and first_draw == False and Dfirst_draw == False:
             playerwin = "Tie"
             self.anger -= 1
             self.angergain = "L"
@@ -315,6 +319,10 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
+        elif Dcardvalue == cardvalue and first_draw == True and Dfirst_draw == True:
+            playerwin = "Tie"
+            self.anger -= 1
+            self.angergain = "L"
 
     def __init__(self, name):
         self.name = name
@@ -354,14 +362,6 @@ class Player:
     bets = False
     def __init__(self, name, balance):
         self.name = name
-        self.drunk = 0
-        self.drunkup = False
-        self.dnum = 0
-        self.ds1 = 0
-        self.ds2 = 0
-        self.ds3 = 0
-        self.ds4 = 0
-        self.ds5 = 0
         self.__balance = balance
         self.stay = "yes"
         global money
@@ -423,52 +423,13 @@ class Player:
         self.stay = input("Keep playing? ").lower()
         while self.stay != "yes" or self.stay != "no":
             if self.stay == "no":
-                    print(f"You left with ${self.__balance} and {self.dnum} drinks taken.")
+                    print(f"You left with ${self.__balance}")
                     exit()
             elif self.stay == "yes":
                 return
             print("Enter a valid response")
             self.stay = input("Keep playing? ").lower()
 
-    def waiter(self):
-        drink = input("A waiter comes by with a tray of drink, do you want one? ").lower()
-        while drink != "yes" or drink != "no":
-            if drink == "yes":
-                print("You take one.")
-                self.drunk += 2
-                self.dnum += 1
-                self.drunkup = True
-                return
-            elif drink == "no":
-                print("He walks away.")
-                if self.drunk != 0:
-                    self.drunk -= 1
-                self.drunkup = False
-                return
-            else:
-                print("What?")
-                if self.drunk != 0:
-                    self.drunk -= 1
-                self.drunkup = False
-                return
-            
-    def drunkcheck(self):
-        if self.drunk >= 6 and self.drunk < 11 and self.drunkup == True and self.ds1 == 0:
-            print("Yummy yummy drink.")
-            self.ds1 = 1
-        if self.drunk >= 11 and self.drunk <  16 and self.drunkup == True and self.ds2 == 0:
-            print("You're vision is a little blurry.")
-            self.ds2 = 1
-        if self.drunk >= 16 and self.drunk < 21 and self.drunkup == True and self.ds3 == 0:
-            print("You almost dozed off.")
-            self.ds3 = 1
-        if self.drunk >= 21 and self.drunk <= 26 and self.drunkup == True and self.ds4 == 0:
-            print("Yo I think you had too much.")
-            self.ds4 = 1
-        if self.drunk > 26 and self.drunkup == True and self.ds5 == 0:
-            print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
-            self.ds5 = 1
-            exit()
 
     def deckcheck(self):
         dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
@@ -476,6 +437,7 @@ class Player:
         if dcthingidk2['remaining'] <= 2:
             dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
 
+    
     def jackpot(self):
         jackpot = random.randint(1,777)
         if jackpot == 777 and playerwin == "Win":
@@ -502,5 +464,3 @@ while loop == True:
         pboy.moneycheck()
         pboy.jackpot()
         pboy.selfexplode()
-        pboy.waiter()
-        pboy.drunkcheck()
