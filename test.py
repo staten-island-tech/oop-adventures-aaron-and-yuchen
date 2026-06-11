@@ -1,6 +1,10 @@
+import random
 import requests
+import math
 
 def draw(amount):
+        global first_deck
+        first_deck = True
         global playerbust
         playerbust = False
         global first_draw
@@ -25,7 +29,10 @@ def draw(amount):
             print("You are out of cards...")
             response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
             print("The deck has been shuffled!")
-            exit()
+        elif int(cards_drawn["remaining"]) <= 0 and first_deck == True:
+            print("You are out of cards...")
+            response = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle/")
+            print("The deck has been shuffled!")
         for x in range(amount):
             if cards_drawn['cards'][x]['value'] == 'QUEEN' or cards_drawn['cards'][x]['value'] == 'KING' or cards_drawn['cards'][x]['value'] == 'JACK':
                 cards[x] = {
@@ -136,6 +143,7 @@ def hit(yn, amount):
         print("You are only allowed to draw one card per hit.")
 
 def dealerdraw(amount):
+        first_deck = False
         global DBJ
         DBJ = False
         global dealerbust
@@ -149,10 +157,12 @@ def dealerdraw(amount):
         Daces = []
         global Dcardvalue
         Dcardvalue = 0
+        global Dresponse
         Dresponse = requests.get(f"https://deckofcardsapi.com/api/deck/1nze49wxn3h1/draw/?count={amount}")
         if Dresponse.status_code != 200:
             print("Error fetching data!")
             return None
+        global Dcards_drawn
         Dcards_drawn = Dresponse.json()
         if Dcards_drawn['remaining'] != 1:
             print(f"There are {Dcards_drawn["remaining"]} cards remaining.")
@@ -292,7 +302,12 @@ class Dealer:
             playerwin = "Blackjack1"
             self.anger += 3
             self.angergain = "G"
+        elif cardvalue == 21 and first_draw == False:
+            playerwin = "Win"
+            self.anger += 2
+            self.angergain = "G"
         elif playerbust == True and dealerbust == True:
+            playerwin = "Lose"
             print("yo why do you AND the dealer sucks")
             self.anger -= 1
             self.angergain = "L"
@@ -300,39 +315,61 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
-        
+
     def __init__(self, name):
         self.name = name
-        self.money_given = 0
         self.anger = 0
-        self.angergain = "G"
+        self.angergain = "N/A"
 
     def angercheck(self):
-        if self.anger == 0:
-            ""
-        if self.anger >= 4 and self.anger < 8 and self.angergain == "G": 
+        if self.anger >= 4 and self.anger < 8 and self.angergain == "G" and playerwin != "Lose": 
             print(f"{self.name}: You were just lucky that round...")      
-        if self.anger >= 8 and self.anger < 12 and self.angergain == "G": 
+        if self.anger >= 8 and self.anger < 12 and self.angergain == "G" and playerwin != "Lose": 
             print(f"{self.name}: Seriously, stop that.") 
-        if self.anger >= 12 and self.anger < 16 and self.angergain == "G": 
+        if self.anger >= 12 and self.anger < 16 and self.angergain == "G" and playerwin != "Lose": 
             print(f"{self.name}: You don't wanna see me angry... 'cus when I get angry... I see red...")
             print(f"{self.name}: 'cus when I get angry... I see red...")
             print(f"{self.name}: and when I see red... you better run...")
-        if self.anger >= 16 and self.anger < 20 and self.angergain == "G": 
+        if self.anger >= 16 and self.anger < 20 and self.angergain == "G" and playerwin != "Lose": 
             print(f"{self.name}: I HATE YOU, I'LL MAKE SURE YOU DIE HORRIBLY")
-        if self.anger >= 20 and self.angergain == "G": 
+        if self.anger >= 20 and self.angergain == "G" and playerwin != "Lose": 
             print(f"{self.name}: GET OUT RIGHT NOW, AND NEVER COME BACK!!!")
             print(f"You were thrown out with ${money}")     
             exit()
-        if self.anger <= -4 and self.anger > -8 and self.angergain == "L":
+        if self.anger <= -4 and self.anger > -8 and self.angergain == "L" and playerwin != "Win":
             print(f"{self.name}: You're not very good at this.")
+        if self.anger <= -8 and self.anger > -12 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: You suck at this.")
+        if self.anger <= -12 and self.anger > -16 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: I think, uh, you should think more carefully about your plays...")
+        if self.anger <= -16 and self.anger > -20 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: You've lost... quite a lot now...")
+        if self.anger <= -20 and self.angergain == "L" and playerwin != "Win":
+            print(f"{self.name}: Ok look, I think you should just leave now, your obviously not gonna win anything.")
+            print(f"You were kindly pointed to the exit with ${money}")     
+            exit()
 
 class Player:
     global bets
     bets = False
     def __init__(self, name, balance):
         self.name = name
+        self.drunk = 0
+        self.drunkup = False
+        self.dnum = 0
+        self.ds1 = 0
+        self.ds2 = 0
+        self.ds3 = 0
+        self.ds4 = 0
+        self.ds5 = 0
         self.__balance = balance
+        self.stay = "yes"
+        global money
+        money = self.__balance
+
+    def pregamemessage(self):
+        print("READ FIRST: Your goal is to not go over 21 but still be higher than the opponent. Numbered cards have the same value as it shows. J, Q, K, and 0 are 10. A is 1 or 11 (Depending on how much you have).")
+        print(f"You start with ${self.__balance}")
 
     def setbet(self):
         integer = False
@@ -371,38 +408,99 @@ class Player:
         elif playerwin == "Tie":
             print("You tied")
         elif playerwin == "Blackjack1":
-            self.__balance += 1.5*y
+            self.__balance += y + y/2
+            math.ceil(self.__balance)
         print(f"You now have {self.__balance}")
 
     def play(self):
         draw(2)
 
+    def moneycheck(self):
+        if self.__balance == 0:
+            print("You suck now get out")
+            exit()
+        money = self.__balance
+        self.stay = input("Keep playing? ").lower()
+        while self.stay != "yes" or self.stay != "no":
+            if self.stay == "no":
+                    print(f"You left with ${self.__balance} and {self.dnum} drinks taken.")
+                    exit()
+            elif self.stay == "yes":
+                return
+            print("Enter a valid response")
+            self.stay = input("Keep playing? ").lower()
+
+    def waiter(self):
+        drink = input("A waiter comes by with a tray of drink, do you want one? ").lower()
+        while drink != "yes" or drink != "no":
+            if drink == "yes":
+                print("You take one.")
+                self.drunk += 2
+                self.dnum += 1
+                self.drunkup = True
+                return
+            elif drink == "no":
+                print("He walks away.")
+                if self.drunk != 0:
+                    self.drunk -= 1
+                self.drunkup = False
+                return
+            else:
+                print("What?")
+                if self.drunk != 0:
+                    self.drunk -= 1
+                self.drunkup = False
+                return
+            
+    def drunkcheck(self):
+        if self.drunk >= 6 and self.drunk < 11 and self.drunkup == True and self.ds1 == 0:
+            print("Yummy yummy drink.")
+            self.ds1 = 1
+        if self.drunk >= 11 and self.drunk <  16 and self.drunkup == True and self.ds2 == 0:
+            print("You're vision is a little blurry.")
+            self.ds2 = 1
+        if self.drunk >= 16 and self.drunk < 21 and self.drunkup == True and self.ds3 == 0:
+            print("You almost dozed off.")
+            self.ds3 = 1
+        if self.drunk >= 21 and self.drunk <= 26 and self.drunkup == True and self.ds4 == 0:
+            print("Yo I think you had too much.")
+            self.ds4 = 1
+        if self.drunk > 26 and self.drunkup == True and self.ds5 == 0:
+            print(f"You were escorted out after you started a fight with the dealer, you had ${self.__balance} and {self.dnum} drinks drunk.")
+            self.ds5 = 1
+            exit()
+
+    def deckcheck(self):
+        dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
+        dcthingidk2 = dcthingidk.json()
+        if dcthingidk2['remaining'] <= 2:
+            dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
+
+    def jackpot(self):
+        jackpot = random.randint(1,777)
+        if jackpot == 777 and playerwin == "Win":
+            print(f"{self.name} JUST HIT THE JACKPOTTTTT.")
+            self.__balance = self.__balance * 10
+
+    def selfexplode(self):
+            monarch = random.randint(1,1000)
+            if monarch == 67 and playerwin == "Lose":
+                print(f"{self.name} has randomly exploded.")
+                exit()
+
 pboy = Player(input("Enter your name: "), 100)
 Bob = Dealer("Bob")
-money = 100
-balance = pboy.__dict__
-stay = "yes"
-leave = False
-print("READ FIRST: Numbered cards have the same value as it shows. J, Q, K, and 0 are 10. A is 1 or 11 (Depending on how much you have).")
-print(f"You start with ${money}")
-while money > 0 and leave == False:
-    if stay == "yes":
+loop = True
+pboy.pregamemessage()
+while loop == True:
+        pboy.deckcheck()
         pboy.setbet()
         pboy.play()
         Bob.Ddraw()
         pboy.checkbet()
         Bob.angercheck()
-        money = balance["_Player__balance"]
-        if money == 0:
-            print("You suck now get out")
-            exit()
-        stay = input("Keep playing? ").lower()
-    elif stay == "no":
-        print(f"You left with ${money}")
-        leave = True
-    else:
-        print("Enter a valid response")
-        stay = input("Keep playing? ").lower()
-
-
-
+        pboy.moneycheck()
+        pboy.jackpot()
+        pboy.selfexplode()
+        pboy.waiter()
+        pboy.drunkcheck()
