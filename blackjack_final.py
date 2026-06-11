@@ -434,14 +434,12 @@ class Player:
             print("Enter a valid response")
             self.stay = input("Keep playing? ").lower()
 
-
     def deckcheck(self):
         dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1")
         dcthingidk2 = dcthingidk.json()
         if dcthingidk2['remaining'] <= 2:
             dcthingidk = requests.get("https://deckofcardsapi.com/api/deck/1nze49wxn3h1/shuffle")
 
-    
     def jackpot(self):
         jackpot = random.randint(1,777)
         if jackpot == 777 and playerwin == "Win":
