@@ -298,6 +298,10 @@ class Dealer:
             playerwin = "Tie"
             self.anger -= 1
             self.angergain = "L"
+        elif cardvalue == 21 and first_draw == True:
+            playerwin = "Blackjack1"
+            self.anger += 3
+            self.angergain = "G"
         elif cardvalue == 21 and first_draw == False:
             playerwin = "Win"
             self.anger += 2
@@ -458,6 +462,7 @@ while loop == True:
         pboy.deckcheck()
         pboy.setbet()
         pboy.play()
+        pboy.deckcheck()
         Bob.Ddraw()
         pboy.checkbet()
         Bob.angercheck()
