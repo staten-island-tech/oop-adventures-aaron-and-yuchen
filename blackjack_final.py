@@ -294,18 +294,10 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
-        elif Dcardvalue == 21 and Dfirst_draw ==  True:
-            playerwin = "Lose"
-            self.anger -= 3
-            self.angergain = "L"
-        elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False and first_draw == False and Dfirst_draw == False:
+        elif Dcardvalue == cardvalue and playerbust == False and dealerbust == False:
             playerwin = "Tie"
             self.anger -= 1
             self.angergain = "L"
-        elif cardvalue == 21 and first_draw == True:
-            playerwin = "Blackjack1"
-            self.anger += 3
-            self.angergain = "G"
         elif cardvalue == 21 and first_draw == False:
             playerwin = "Win"
             self.anger += 2
@@ -319,10 +311,18 @@ class Dealer:
             playerwin = "Win"
             self.anger += 2
             self.angergain = "G"
-        elif Dcardvalue == cardvalue and first_draw == True and Dfirst_draw == True:
+        elif Dcardvalue == 21 and cardvalue == 21 and first_draw == True and Dfirst_draw == True:
             playerwin = "Tie"
             self.anger -= 1
             self.angergain = "L"
+        elif Dcardvalue == 21 and cardvalue == 21 and first_draw == False and Dfirst_draw == True:
+            playerwin = "Lose"
+            self.anger -= 3
+            self.angergain = "L"
+        elif Dcardvalue == 21 and cardvalue == 21 and first_draw == True and Dfirst_draw == False:
+            playerwin = "Blackjack1"
+            self.anger += 3
+            self.angergain = "G"
 
     def __init__(self, name):
         self.name = name
